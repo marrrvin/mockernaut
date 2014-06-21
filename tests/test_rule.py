@@ -1,9 +1,9 @@
-import unittest
+import unittest2
 
 from mockernaut.client.rule import Rule
 
 
-class RuleTestCase(unittest.TestCase):
+class RuleTestCase(unittest2.TestCase):
     def test_base(self):
         r = Rule()
         r.request.path = '/'

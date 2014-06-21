@@ -7,6 +7,7 @@ python:
 
 install:
   - "pip install -r requirements.txt"
+  - "pip install -r tests/test-requirements.txt"
 
 script:
   - "nosetests -v"
@@ -16,4 +17,4 @@ env:
 
 before_script:
   - "mysql -e 'create database mockernaut_test;'"
-  - "mysql mockernaut_test < ${TRAVIS_BUILD_DIR}/sql/schema.sql"
+  - "mysql mockernaut_test < sql/schema.sql"
