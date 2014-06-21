@@ -15,6 +15,7 @@ class ApiTestCase(unittest.TestCase):
 
         self.client = self.app.test_client()
 
+        self.app.storage.delete_all()
 
 
 class RulesListTestCase(ApiTestCase):

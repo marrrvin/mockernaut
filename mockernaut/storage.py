@@ -2,7 +2,7 @@
 from json import dumps
 from json import loads
 
-from mysql.connector import connect
+from mysql.connector.pooling import MySQLConnectionPool
 from mysql.connector import cursor
 
 from .errors import DoesNotExists
@@ -21,28 +21,46 @@ class MySQLStorage(object):
     DoesNotExists = DoesNotExists
 
     def __init__(self, **kwargs):
-        self.cnx = connect(**kwargs)
+        self.pool = MySQLConnectionPool(**kwargs)
 
     def get_by_id(self, _id):
-        cursor = self.cnx.cursor(cursor_class=MySQLCursorDict)
+        con = self.pool.get_connection()
+        cursor = con.cursor(cursor_class=MySQLCursorDict)
 
         cursor.execute("SELECT * FROM rules WHERE id=%s", (_id,))
 
-        return self.make_rule(cursor.fetchone())
+        data = cursor.fetchone()
+
+        cursor.close()
+        con.close()
+
+        return self.make_rule(data)
 
     def get_all(self):
-        cursor = self.cnx.cursor(cursor_class=MySQLCursorDict)
+        con = self.pool.get_connection()
+        cursor = con.cursor(cursor_class=MySQLCursorDict)
 
         cursor.execute("SELECT * FROM rules")
 
-        return [self.make_rule(item) for item in cursor.fetchall()]
+        data = cursor.fetchall()
+
+        cursor.close()
+        con.close()
+
+        return [self.make_rule(item) for item in data]
 
     def get_by_path(self, path):
-        cursor = self.cnx.cursor(cursor_class=MySQLCursorDict)
+        con = self.pool.get_connection()
+        cursor = con.cursor(cursor_class=MySQLCursorDict)
 
         cursor.execute("SELECT * FROM rules WHERE path=%s", (path,))
 
-        return self.make_rule(cursor.fetchone())
+        data = cursor.fetchone()
+
+        cursor.close()
+        con.close()
+
+        return self.make_rule(data)
 
     def make_rule(self, data):
         if not data:
@@ -56,21 +74,48 @@ class MySQLStorage(object):
         return data
 
     def add(self, item):
-        cursor = self.cnx.cursor()
+        con = self.pool.get_connection()
+        cursor = con.cursor(cursor_class=MySQLCursorDict)
+
         cursor.execute(
             "INSERT INTO `rules` (`path`, `request`, `response`) VALUES (%s, %s, %s)",
             (item['request']['path'], dumps(item['request']), dumps(item['response']))
         )
+
         item['id'] = cursor.lastrowid
+
+        con.commit()
+        cursor.close()
+        con.close()
 
         return item
 
     def delete_by_id(self, _id):
-        cursor = self.cnx.cursor()
+        con = self.pool.get_connection()
+        cursor = con.cursor(cursor_class=MySQLCursorDict)
+
         cursor.execute("DELETE FROM rules WHERE id=%s", (_id,))
+        con.commit()
+
+        cursor.close()
+        con.close()
 
         if cursor.rowcount == 0:
             raise DoesNotExists
+
+    def get_by_request(self, request):
+        raise NotImplementedError
+
+
+    def delete_all(self):
+        con = self.pool.get_connection()
+        cursor = con.cursor(cursor_class=MySQLCursorDict)
+
+        cursor.execute("DELETE FROM rules")
+        con.commit()
+
+        cursor.close()
+        con.close()
 
     def get_by_request(self, request):
         raise NotImplementedError

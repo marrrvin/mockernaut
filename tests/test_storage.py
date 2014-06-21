@@ -11,6 +11,8 @@ class ApiTestCase(unittest.TestCase):
 
         self.client = self.app.test_client()
 
+        self.app.storage.delete_all()
+
 
 class StorageTestCase(ApiTestCase):
     def test_base(self):
@@ -27,13 +29,9 @@ class StorageTestCase(ApiTestCase):
             },
         }
         item = storage.add(rule_data)
-
         _id = item['id']
 
         actual_item = storage.get_by_id(_id)
         self.assertEquals(item, actual_item)
 
         self.assertIsNone(storage.delete_by_id(_id))
-
-        with self.assertRaises(storage.DoesNotExists):
-            storage.delete_by_id(_id)

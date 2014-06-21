@@ -70,6 +70,7 @@ def create_app():
         user=app.config['DATABASE_USER'],
         passwd=app.config['DATABASE_PASSWORD'],
         database=app.config['DATABASE_NAME'],
+        pool_name='mockernaut',
         pool_size=app.config['DATABASE_POOL_SIZE']
     )
 
