@@ -12,7 +12,7 @@ class Client(object):
 
     def get(self, _id):
         response = requests.get(
-            urljoin(self._base_url, '/rules/{}'.format(_id))
+            urljoin(self._base_url, '/rules/{_id}'.format(_id=_id))
         )
 
         return response.json()
@@ -34,7 +34,7 @@ class Client(object):
 
     def delete(self, _id):
         response = requests.post(
-            urljoin(self._base_url, '/rules/{}'.format(_id))
+            urljoin(self._base_url, '/rules/{_id}'.format(_id=_id))
         )
 
         return response.json()

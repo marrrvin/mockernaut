@@ -32,7 +32,7 @@ class RulesListTestCase(ApiTestCase):
 
 class GetRuleByIdTestCase(ApiTestCase):
     def test_get_rule_by_non_existent_id(self):
-        response = self.client.get('/rules/{}'.format(0))
+        response = self.client.get('/rules/{_id}'.format(_id=0))
 
         self.assertEquals(response.status_code, 404)
         self.assertEquals(response.content_type, 'application/json')
@@ -82,14 +82,14 @@ class CreateRuleTestCase(ApiTestCase):
 
 class DeleteRuleTestCase(ApiTestCase):
     def test_delete_existent_rule(self):
-        response = self.client.delete('/rules/{}'.format(0))
+        response = self.client.delete('/rules/{_id}'.format(_id=0))
 
         self.assertEquals(response.status_code, 204)
         self.assertEquals(response.content_type, 'application/json')
         self.assertEquals(response.data, '')
 
     def test_delete_non_existent_rule(self):
-        response = self.client.delete('/rules/{}'.format(0))
+        response = self.client.delete('/rules/{_id}'.format(_id=0))
 
         self.assertEquals(response.status_code, 204)
         self.assertEquals(response.content_type, 'application/json')
