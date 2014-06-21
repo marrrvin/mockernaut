@@ -15,4 +15,4 @@ env:
   - MOCKERNAUT_SETTINGS=${TRAVIS_BUILD_DIR}/config/test_config.py
 
 before_script:
-  - "mysql test < sql/schema.sql"
+  - "mysql test < ${TRAVIS_BUILD_DIR}/sql/schema.sql"
