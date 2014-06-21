@@ -1,10 +1,10 @@
 
-import unittest
+import unittest2
 
 from mockernaut.server import create_app
 
 
-class ApiTestCase(unittest.TestCase):
+class ApiTestCase(unittest2.TestCase):
     def setUp(self):
         self.app = create_app()
         self.app.config['TESTING'] = True
