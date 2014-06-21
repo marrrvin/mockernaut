@@ -1,5 +1,5 @@
 
-from mockernaut.base import ApiTestCase
+from mockernaut.tests import ApiTestCase
 
 from mockernaut.client.rule import Rule
 

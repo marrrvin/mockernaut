@@ -1,7 +1,7 @@
 from json import dumps
-from json import loads
 
-from mockernaut.base import ApiTestCase
+from mockernaut.tests import ApiTestCase
+from mockernaut.tests import loads
 
 
 class RulesListTestCase(ApiTestCase):
