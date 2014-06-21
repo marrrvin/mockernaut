@@ -9,7 +9,11 @@ if PY3:
     from urllib.parse import urljoin
 
     iteritems = operator.methodcaller('items')
+
+    text_type = str
 else:
     from urlparse import urljoin
 
     iteritems = operator.methodcaller('iteritems')
+
+    text_type = unicode

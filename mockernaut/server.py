@@ -9,6 +9,7 @@ from .views.api import rules
 from .views.proxy import proxy
 from .storage import storage_class
 from .compat import iteritems
+from .compat import text_type
 
 class JsonResponse(Response):
     default_mimetype = 'application/json'
@@ -54,7 +55,7 @@ def handle_exception(exc):
 
     error = {
         'type': exc_class.__name__,
-        'message': unicode(exc)
+        'message': text_type(exc)
     }
 
     return error, status_code
