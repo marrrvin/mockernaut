@@ -1,9 +1,5 @@
-from unittest2 import TestCase
-
-from mockernaut.client import Client
-
 """
-class ClientTestCase(TestCase):
+class ClientTestCase(ApiTestCase):
     def setUp(self):
         self.client = Client(base_url='http://example.com/')
 

@@ -1,9 +1,10 @@
-import unittest2
+
+from mockernaut.base import ApiTestCase
 
 from mockernaut.client.rule import Rule
 
 
-class RuleTestCase(unittest2.TestCase):
+class RuleTestCase(ApiTestCase):
     def test_base(self):
         r = Rule()
         r.request.path = '/'

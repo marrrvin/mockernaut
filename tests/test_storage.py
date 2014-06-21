@@ -1,17 +1,5 @@
 
-import unittest2
-
-from mockernaut.server import create_app
-
-
-class ApiTestCase(unittest2.TestCase):
-    def setUp(self):
-        self.app = create_app()
-        self.app.config['TESTING'] = True
-
-        self.client = self.app.test_client()
-
-        self.app.storage.delete_all()
+from mockernaut.base import ApiTestCase
 
 
 class StorageTestCase(ApiTestCase):
