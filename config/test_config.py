@@ -7,6 +7,6 @@ DATABASE_USER = 'root'
 
 DATABASE_PASSWORD = ''
 
-DATABASE_NAME = 'test'
+DATABASE_NAME = 'mockernaut_test'
 
 DATABASE_POOL_SIZE = 5

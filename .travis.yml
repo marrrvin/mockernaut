@@ -9,10 +9,11 @@ install:
   - "pip install -r requirements.txt"
 
 script:
-  - "nosetests"
+  - "nosetests -v"
 
 env:
   - MOCKERNAUT_SETTINGS=${TRAVIS_BUILD_DIR}/config/test_config.py
 
 before_script:
-  - "mysql test < ${TRAVIS_BUILD_DIR}/sql/schema.sql"
+  - "mysql -e 'create database mockernaut_test;'
+  - "mysql mockernaut_test < ${TRAVIS_BUILD_DIR}/sql/schema.sql"
