@@ -9,7 +9,6 @@ else:
 
 
 from mockernaut.server import create_app
-from mockernaut.compat import text_type
 
 
 class ApiTestCase(unittest.TestCase):
@@ -23,4 +22,4 @@ class ApiTestCase(unittest.TestCase):
 
 
 def loads(data):
-    return json.loads(text_type(data))
+    return json.loads(data.decode('utf-8'))
