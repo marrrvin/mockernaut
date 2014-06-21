@@ -30,6 +30,13 @@ class MySQLStorage(object):
 
         return self.make_rule(cursor.fetchone())
 
+    def get_all(self):
+        cursor = self.cnx.cursor(cursor_class=MySQLCursorDict)
+
+        cursor.execute("SELECT * FROM rules")
+
+        return [self.make_rule(item) for item in cursor.fetchall()]
+
     def get_by_path(self, path):
         cursor = self.cnx.cursor(cursor_class=MySQLCursorDict)
 
@@ -38,7 +45,12 @@ class MySQLStorage(object):
         return self.make_rule(cursor.fetchone())
 
     def make_rule(self, data):
+        if not data:
+            raise DoesNotExists
+
+        path = data.pop('path')
         data['request'] = loads(data['request'])
+
         data['response'] = loads(data['response'])
 
         return data
@@ -47,7 +59,7 @@ class MySQLStorage(object):
         cursor = self.cnx.cursor()
         cursor.execute(
             "INSERT INTO `rules` (`path`, `request`, `response`) VALUES (%s, %s, %s)",
-            (item['path'], dumps(item['request']), dumps(item['response']))
+            (item['request']['path'], dumps(item['request']), dumps(item['response']))
         )
         item['id'] = cursor.lastrowid
 

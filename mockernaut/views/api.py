@@ -11,7 +11,7 @@ rules = Blueprint('rules', __name__)
 
 @rules.route('')
 def get_rules_list():
-    return app.storage.all()
+    return app.storage.get_all()
 
 
 @rules.route('/<int:rule_id>')

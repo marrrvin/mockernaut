@@ -17,22 +17,23 @@ class StorageTestCase(ApiTestCase):
         storage = self.app.storage
 
         rule_data = {
-            'path': '/',
-            'request': {},
-            'response': {
-                'status': 200,
-                'headers': [['Content-type', 'application/json']],
-                'body': 'OK'
+            u'request': {
+                u'path': u'/',
+            },
+            u'response': {
+                u'status': 200,
+                u'headers': [[u'Content-type', u'application/json']],
+                u'body': u'OK'
             },
         }
         item = storage.add(rule_data)
 
-        _id = item.pop('id')
+        _id = item['id']
 
         actual_item = storage.get_by_id(_id)
         self.assertEquals(item, actual_item)
 
-        self.assertTrue(storage.delete_by_id(_id))
+        self.assertIsNone(storage.delete_by_id(_id))
 
         with self.assertRaises(storage.DoesNotExists):
             storage.delete_by_id(_id)
