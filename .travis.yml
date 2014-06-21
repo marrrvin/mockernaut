@@ -15,5 +15,5 @@ env:
   - MOCKERNAUT_SETTINGS=${TRAVIS_BUILD_DIR}/config/test_config.py
 
 before_script:
-  - "mysql -e 'create database mockernaut_test;'
+  - "mysql -e 'create database mockernaut_test;'"
   - "mysql mockernaut_test < ${TRAVIS_BUILD_DIR}/sql/schema.sql"
