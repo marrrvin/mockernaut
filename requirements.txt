@@ -1,3 +1,4 @@
+--allow-all-external
 Flask
 mysql-connector-python
 requests
