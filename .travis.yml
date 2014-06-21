@@ -7,4 +7,4 @@ install:
 script:
   - "nosetests"
 env:
-  - MOCKERNAUT_SETTINGS=$PWD/config/test_config.py
+  - MOCKERNAUT_SETTINGS=${TRAVIS_BUILD_DIR}/config/test_config.py
