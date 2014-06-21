@@ -6,12 +6,14 @@ from flask import request
 from flask import g
 from jsonschema import validate
 
+from ..compat import text_type
+
 
 def schema(schema_doc):
     def decorator(func):
         @wraps(func)
         def decorated_function(*args, **kwargs):
-            doc = loads(request.data)
+            doc = loads(text_type(request.data))
             validate(doc, schema_doc)
             g.doc = doc
 
