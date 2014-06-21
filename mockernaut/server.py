@@ -8,7 +8,7 @@ from .errors import EXCEPTIONS_TO_STATUS_CODES
 from .views.api import rules
 from .views.proxy import proxy
 from .storage import storage_class
-
+from .compat import iteritems
 
 class JsonResponse(Response):
     default_mimetype = 'application/json'
@@ -47,7 +47,7 @@ def handle_exception(exc):
     exc_class = exc.__class__
 
     status_code = 500
-    for exc_class, code in EXCEPTIONS_TO_STATUS_CODES.iteritems():
+    for exc_class, code in iteritems(EXCEPTIONS_TO_STATUS_CODES):
         if isinstance(exc, exc_class):
             status_code = code
             break

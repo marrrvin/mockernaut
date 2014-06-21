@@ -1,9 +1,9 @@
 
-from urlparse import urljoin
 from json import dumps
-import urlparse
 
 import requests
+
+from ..compat import urljoin
 
 
 class Client(object):
