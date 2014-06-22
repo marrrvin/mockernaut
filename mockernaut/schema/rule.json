@@ -27,7 +27,10 @@
                     "type": "string"
                 },
                 "methods": {
-                    "type": "array"
+                    "type": "array",
+                    "items": {
+                        "enum": ["GET", "POST", "DELETE", "PUT"]
+                    }
                 },
                 "args": {
                     "type": "object"
