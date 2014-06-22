@@ -4,12 +4,14 @@ from flask import Flask
 from werkzeug.wrappers import Response
 from werkzeug._compat import string_types
 
-from .errors import EXCEPTIONS_TO_STATUS_CODES
 from .views.api import rules
 from .views.proxy import proxy
 from .storage import storage_class
 from .compat import iteritems
 from .compat import text_type
+from .errors import ValidationError
+from .errors import DoesNotExists
+
 
 class JsonResponse(Response):
     default_mimetype = 'application/json'
@@ -45,10 +47,14 @@ class App(Flask):
 
 
 def handle_exception(exc):
+    exc_to_status_code = {
+        ValidationError: 400,
+        DoesNotExists: 404
+    }
     exc_class = exc.__class__
 
     status_code = 500
-    for exc_class, code in iteritems(EXCEPTIONS_TO_STATUS_CODES):
+    for exc_class, code in iteritems(exc_to_status_code):
         if isinstance(exc, exc_class):
             status_code = code
             break
@@ -71,7 +77,6 @@ def create_app():
         user=app.config['DATABASE_USER'],
         passwd=app.config['DATABASE_PASSWORD'],
         database=app.config['DATABASE_NAME'],
-        pool_name='mockernaut',
         pool_size=app.config['DATABASE_POOL_SIZE']
     )
 

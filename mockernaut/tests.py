@@ -8,7 +8,7 @@ else:
     import unittest
 
 
-from mockernaut.server import create_app
+from mockernaut.app import create_app
 
 
 class ApiTestCase(unittest.TestCase):
@@ -16,9 +16,9 @@ class ApiTestCase(unittest.TestCase):
         self.app = create_app()
         self.app.config['TESTING'] = True
 
-        self.client = self.app.test_client()
-
         self.app.storage.delete_all()
+
+        self.client = self.app.test_client()
 
 
 def loads(data):
