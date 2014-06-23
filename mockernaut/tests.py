@@ -20,6 +20,7 @@ class ApiTestCase(unittest.TestCase):
 
         self.client = self.app.test_client()
 
+        self.path = self.app.config['API_PATH']
 
 def loads(data):
     return json.loads(data.decode('utf-8'))

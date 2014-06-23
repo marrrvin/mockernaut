@@ -80,8 +80,12 @@ def create_app():
         pool_size=app.config['DATABASE_POOL_SIZE']
     )
 
-    app.register_blueprint(proxy, url_prefix='/')
-    app.register_blueprint(rules, url_prefix='/rules')
+    app.register_blueprint(
+        proxy, url_prefix='/'
+    )
+    app.register_blueprint(
+        rules, url_prefix='{api_path}'.format(api_path=app.config['API_PATH'])
+    )
 
     app.register_error_handler(Exception, handle_exception)
 

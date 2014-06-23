@@ -6,7 +6,7 @@ from mockernaut.tests import loads
 
 class RulesListTestCase(ApiTestCase):
     def test_get_empty_rules_list(self):
-        response = self.client.get('/rules')
+        response = self.client.get(self.path)
 
         self.assertEquals(response.status_code, 200)
         self.assertEquals(response.content_type, 'application/json')
@@ -19,7 +19,7 @@ class RulesListTestCase(ApiTestCase):
 
 class GetRuleByIdTestCase(ApiTestCase):
     def test_get_rule_by_non_existent_id(self):
-        response = self.client.get('/rules/{_id}'.format(_id=0))
+        response = self.client.get('{path}/{_id}'.format(path=self.path, _id=0))
 
         self.assertEquals(response.status_code, 404)
         self.assertEquals(response.content_type, 'application/json')
@@ -42,7 +42,7 @@ class CreateRuleTestCase(ApiTestCase):
             },
         }
 
-        response = self.client.post('/rules', data=dumps(rule_data))
+        response = self.client.post(self.path, data=dumps(rule_data))
 
         self.assertEquals(response.status_code, 201)
         self.assertEquals(response.content_type, 'application/json')
@@ -57,7 +57,7 @@ class CreateRuleTestCase(ApiTestCase):
             'wrong-field': None
         }
 
-        response = self.client.post('/rules', data=dumps(rule_data))
+        response = self.client.post(self.path, data=dumps(rule_data))
 
         self.assertEquals(response.status_code, 400)
         self.assertEquals(response.content_type, 'application/json')
@@ -69,14 +69,14 @@ class CreateRuleTestCase(ApiTestCase):
 
 class DeleteRuleTestCase(ApiTestCase):
     def test_delete_existent_rule(self):
-        response = self.client.delete('/rules/{_id}'.format(_id=0))
+        response = self.client.delete('{path}/{_id}'.format(path=self.path, _id=0))
 
         self.assertEquals(response.status_code, 204)
         self.assertEquals(response.content_type, 'application/json')
         self.assertEquals(response.data, '')
 
     def test_delete_non_existent_rule(self):
-        response = self.client.delete('/rules/{_id}'.format(_id=0))
+        response = self.client.delete('{path}/{_id}'.format(path=self.path, _id=0))
 
         self.assertEquals(response.status_code, 204)
         self.assertEquals(response.content_type, 'application/json')
