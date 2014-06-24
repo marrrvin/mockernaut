@@ -11,6 +11,7 @@ install:
   - "python setup.py install"
   - if [[ "$(python -c 'import sys; print sys.version_info[:2]')" == "(2, 6)" ]]; then pip install unittest2; fi
   - if [[ "$(python -c 'import sys; print sys.version_info[:2]')" == "(2, 7)" ]]; then pip install mock; fi
+  - "pip install pep8"
 
 script:
   - "nosetests -v"
