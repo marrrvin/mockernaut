@@ -19,7 +19,6 @@ setup(
     url='http://github.com/marrrvin/mockernaut/',
     author='Sergey Orlov',
     author_email='foobar@list.ru',
-    description='Web service mocking library written in python',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
