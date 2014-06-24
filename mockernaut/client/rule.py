@@ -1,19 +1,30 @@
 
-
-class InvalidRule(Exception):
-    pass
-
-
 class Request(object):
     def __init__(self):
+        self.schema = None
+        self.userinfo = None
+        self.host = None
+        self.port = None
         self.path = None
+        self.fragment = None
         self.methods = None
+        self.args = None
+        self.form = None
+        self.headers = None
         self.body = None
 
     def to_dict(self):
         return {
-            'status': self.path,
+            'schema': self.schema,
+            'userinfo': self.userinfo,
+            'host': self.host,
+            'port': self.port,
+            'path': self.path,
+            'fragment': self.fragment,
             'methods': self.methods,
+            'args': self.args,
+            'form': self.form,
+            'headers': self.headers,
             'body': self.body
         }
 
