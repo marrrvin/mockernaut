@@ -1,9 +1,9 @@
 
-from .compat import unittest
+from .compat.unittest import TestCase
 from .app import create_app
 
 
-class ApiTestCase(unittest.TestCase):
+class ApiTestCase(TestCase):
     def setUp(self):
         self.app = create_app()
         self.app.config['TESTING'] = True
@@ -13,3 +13,14 @@ class ApiTestCase(unittest.TestCase):
         self.client = self.app.test_client()
 
         self.path = self.app.config['API_PATH']
+
+        self.rule_data = {
+            u'request': {
+                u'path': u'/',
+            },
+            u'response': {
+                u'status': 200,
+                u'headers': [[u'Content-type', u'application/json']],
+                u'body': u'OK'
+            },
+        }

@@ -34,18 +34,7 @@ class GetRuleByIdTestCase(ApiTestCase):
 
 class CreateRuleTestCase(ApiTestCase):
     def test_create_rule_valid_data(self):
-        rule_data = {
-            'request': {
-                'path': '/'
-            },
-            'response': {
-                'status': 200,
-                'headers': [['content-type', 'application/json']],
-                'body': 'OK'
-            },
-        }
-
-        response = self.client.post(self.path, data=dumps(rule_data))
+        response = self.client.post(self.path, data=dumps(self.rule_data))
 
         self.assertEquals(response.status_code, 201)
         self.assertEquals(response.content_type, 'application/json')

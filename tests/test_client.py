@@ -8,40 +8,32 @@ from mockernaut.client import Client
 
 class ClientTestCase(ApiTestCase):
     def setUp(self):
+        super(ClientTestCase, self).setUp()
+
         self.base_url = 'http://non-existent-url-13fff2s7f38s78.com'
         self.api_path = '/mockernaut/'
         self.client = Client(base_url=self.base_url, api_path=self.api_path)
 
-        self.rule = {
-            'id': 1,
-            'request': {
-                'path': '/'
-            },
-            'response': {
-                'status': 200,
-                'headers': [['Content-type', 'application/json']],
-                'body': 'OK'
-            }
-        }
+        self.rule_data['id'] = 1
 
     @mock.patch('mockernaut.client.requests.get')
     def test_get(self, get_mock):
         response_mock = mock.MagicMock()
-        response_mock.json.return_value = self.rule
+        response_mock.json.return_value = self.rule_data
         get_mock.return_value = response_mock
 
-        actual_rule = self.client.get(self.rule['id'])
+        actual_rule = self.client.get(self.rule_data['id'])
 
         get_mock.assert_called_once_with(
-            self.base_url + self.api_path + str(self.rule['id'])
+            self.base_url + self.api_path + str(self.rule_data['id'])
         )
 
-        self.assertEquals(actual_rule, self.rule)
+        self.assertEquals(actual_rule, self.rule_data)
 
     @mock.patch('mockernaut.client.requests.get')
     def test_list(self, get_mock):
         response_mock = mock.MagicMock()
-        response_mock.json.return_value = [self.rule]
+        response_mock.json.return_value = [self.rule_data]
         get_mock.return_value = response_mock
 
         rule_list = self.client.list()
@@ -52,22 +44,22 @@ class ClientTestCase(ApiTestCase):
 
         get_mock.assert_called_once_with(self.base_url + self.api_path)
 
-        self.assertEquals(actual_rule, self.rule)
+        self.assertEquals(actual_rule, self.rule_data)
 
     @mock.patch('mockernaut.client.requests.post')
     def test_add(self, post_mock):
         response_mock = mock.MagicMock()
-        response_mock.json.return_value = self.rule
+        response_mock.json.return_value = self.rule_data
         post_mock.return_value = response_mock
 
-        actual_rule = self.client.add(self.rule)
+        actual_rule = self.client.add(self.rule_data)
 
         post_mock.assert_called_once_with(
             self.base_url + self.api_path,
-            data=dumps(self.rule)
+            data=dumps(self.rule_data)
         )
 
-        self.assertEqual(actual_rule, self.rule)
+        self.assertEqual(actual_rule, self.rule_data)
 
     @mock.patch('mockernaut.client.requests.delete')
     def test_delete(self, delete_mock):
@@ -75,10 +67,10 @@ class ClientTestCase(ApiTestCase):
         response_mock.json.return_value = ''
         delete_mock.return_value = response_mock
 
-        actual_result = self.client.delete(self.rule['id'])
+        actual_result = self.client.delete(self.rule_data['id'])
 
         delete_mock.assert_called_once_with(
-            self.base_url + self.api_path + str(self.rule['id'])
+            self.base_url + self.api_path + str(self.rule_data['id'])
         )
 
         self.assertEqual(actual_result, '')

@@ -6,20 +6,10 @@ class StorageTestCase(ApiTestCase):
     def test_base(self):
         storage = self.app.storage
 
-        rule_data = {
-            u'request': {
-                u'path': u'/',
-            },
-            u'response': {
-                u'status': 200,
-                u'headers': [[u'Content-type', u'application/json']],
-                u'body': u'OK'
-            },
-        }
-        item = storage.create(rule_data)
-        _id = item['id']
+        rule = storage.create(self.rule_data)
+        _id = rule['id']
 
-        actual_item = storage.get_by_id(_id)
-        self.assertEquals(item, actual_item)
+        actual_rule = storage.get_by_id(_id)
+        self.assertEquals(rule, actual_rule)
 
         self.assertIsNone(storage.delete_by_id(_id))
