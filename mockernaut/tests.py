@@ -1,9 +1,9 @@
 
-from .compat.unittest import TestCase
+from .compat import unittest
 from .app import create_app
 
 
-class ApiTestCase(TestCase):
+class ApiTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app()
         self.app.config['TESTING'] = True
