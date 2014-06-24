@@ -16,7 +16,7 @@ class StorageTestCase(ApiTestCase):
                 u'body': u'OK'
             },
         }
-        item = storage.add(rule_data)
+        item = storage.create(rule_data)
         _id = item['id']
 
         actual_item = storage.get_by_id(_id)

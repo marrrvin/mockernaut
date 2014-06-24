@@ -11,7 +11,7 @@ rules = Blueprint('rules', __name__)
 
 @rules.route('')
 def get_rules_list():
-    return app.storage.get_all()
+    return app.storage.get_list()
 
 
 @rules.route('/<int:rule_id>')
@@ -22,7 +22,7 @@ def get_rule(rule_id):
 @rules.route('', methods=['POST'])
 @schema(RULE)
 def add_rule():
-    return app.storage.add(g.doc), 201
+    return app.storage.create(g.doc), 201
 
 
 @rules.route('/<int:rule_id>', methods=['DELETE'])

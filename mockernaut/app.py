@@ -71,7 +71,7 @@ def create_app():
     app = App(__name__)
     app.config.from_envvar('MOCKERNAUT_SETTINGS')
 
-    app.storage = storage_class(
+    storage = storage_class(
         host=app.config['DATABASE_HOST'],
         port=app.config['DATABASE_PORT'],
         user=app.config['DATABASE_USER'],
@@ -79,6 +79,9 @@ def create_app():
         database=app.config['DATABASE_NAME'],
         pool_size=app.config['DATABASE_POOL_SIZE']
     )
+    storage.clear()
+
+    app.storage = storage
 
     app.register_blueprint(
         proxy, url_prefix='/'
