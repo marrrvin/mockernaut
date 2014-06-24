@@ -1,11 +1,7 @@
 
-import sys
 import json
 
-if sys.version_info[:2] < (2, 7):  # pragma: no cover
-    import unittest2 as unittest
-else:
-    import unittest
+from .compat import unittest
 
 
 from mockernaut.app import create_app
@@ -21,6 +17,7 @@ class ApiTestCase(unittest.TestCase):
         self.client = self.app.test_client()
 
         self.path = self.app.config['API_PATH']
+
 
 def loads(data):
     return json.loads(data.decode('utf-8'))
