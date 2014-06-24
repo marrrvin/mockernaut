@@ -19,6 +19,6 @@ env:
   - MOCKERNAUT_SETTINGS=${TRAVIS_BUILD_DIR}/config/test_config.py
 
 before_script:
+  - "pep8 mockernaout tests"
   - "mysql -e 'CREATE DATABASE mockernaut_test'"
   - "mysql mockernaut_test < sql/schema.sql"
-  - "pep8 mockernaout tests"
