@@ -77,10 +77,14 @@ class MySQLStorage(object):
         con = self.pool.get_connection()
         cursor = con.cursor(cursor_class=MySQLCursorDict)
 
-        cursor.execute(
-            "INSERT INTO `rules` (`path`, `request`, `response`) VALUES (%s, %s, %s)",
-            (item['request']['path'], dumps(item['request']), dumps(item['response']))
-        )
+        sql = 'INSERT INTO `rules` (`path`, `request`, `response`)' \
+              'VALUES (%s, %s, %s)'
+
+        cursor.execute(sql, (
+            item['request']['path'],
+            dumps(item['request']),
+            dumps(item['response'])
+        ))
 
         item['id'] = cursor.lastrowid
 
@@ -105,7 +109,6 @@ class MySQLStorage(object):
 
     def get_by_request(self, request):
         raise NotImplementedError
-
 
     def delete_all(self):
         con = self.pool.get_connection()
