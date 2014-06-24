@@ -21,3 +21,4 @@ env:
 before_script:
   - "mysql -e 'CREATE DATABASE mockernaut_test'"
   - "mysql mockernaut_test < sql/schema.sql"
+  - "pep8 mockernaout tests"
