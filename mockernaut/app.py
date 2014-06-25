@@ -1,4 +1,6 @@
+
 from json import dumps
+from logging.config import dictConfig
 
 from flask import Flask
 from werkzeug.wrappers import Response
@@ -69,7 +71,19 @@ def handle_exception(exc):
 
 def create_app():
     app = App(__name__)
+
     app.config.from_envvar('MOCKERNAUT_SETTINGS')
+
+    dictConfig(app.config['LOGGING'])
+
+    app.logger.info(
+        'Init storage {user}@{host}:{port}/{name}?pool_size={size}'.format(
+            user=app.config['DATABASE_USER'],
+            host=app.config['DATABASE_HOST'],
+            port=app.config['DATABASE_PORT'],
+            name=app.config['DATABASE_NAME'],
+            size=app.config['DATABASE_POOL_SIZE']
+        ))
 
     storage = storage_class(
         host=app.config['DATABASE_HOST'],
@@ -79,10 +93,13 @@ def create_app():
         database=app.config['DATABASE_NAME'],
         pool_size=app.config['DATABASE_POOL_SIZE']
     )
+
+    app.logger.info('Clear storage.')
     storage.clear()
 
     app.storage = storage
 
+    app.logger.debug('Register blueprints.')
     app.register_blueprint(
         proxy, url_prefix='/'
     )
@@ -90,6 +107,7 @@ def create_app():
         rules, url_prefix='{api_path}'.format(api_path=app.config['API_PATH'])
     )
 
+    app.logger.debug('Register error handler.')
     app.register_error_handler(Exception, handle_exception)
 
     return app
