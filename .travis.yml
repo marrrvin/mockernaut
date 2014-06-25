@@ -22,4 +22,4 @@ env:
 before_script:
   - "make check"
   - "mysql -e 'CREATE DATABASE mockernaut_test'"
-  - "mysql mockernaut_test < sql/schema.sql"
+  - "mysql mockernaut_test < mockernaut/sql/schema.sql"
