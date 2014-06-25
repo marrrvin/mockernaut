@@ -53,3 +53,9 @@ class Rule(object):
             'request': self.request.to_dict(),
             'response': self.response.to_dict()
         }
+
+
+def rule(request, response):
+    r = Rule()
+
+    return r.to_dict()
