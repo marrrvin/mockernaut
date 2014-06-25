@@ -14,7 +14,7 @@ install:
   - "pip install pep8"
 
 script:
-  - "nosetests -v"
+  - "make test"
 
 env:
   - MOCKERNAUT_SETTINGS=${TRAVIS_BUILD_DIR}/config/test_config.py
