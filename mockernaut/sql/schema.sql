@@ -1,5 +1,5 @@
 
-CREATE TABLE `rules`
+CREATE TABLE IF NOT EXISTS `rules`
 (
     `id` int NOT NULL auto_increment,
     `path` varchar(255) NOT NULL,
