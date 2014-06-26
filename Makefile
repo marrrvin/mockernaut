@@ -1,12 +1,17 @@
 
 ROOT_PATH=$(shell pwd)
-
 SETTINGS_PATH=$(ROOT_PATH)/config
 PACKAGE_NAME=mockernaut
 PACKAGE_PATH=$(ROOT_PATH)/$(PACKAGE_NAME)
 TESTS_PATH=$(ROOT_PATH)/tests
-BIN_PATH=$(ROOT_PATH)/bin
-TEST_DATABASE_NAME=mockernaut_test
+
+PIP_BIN=pip
+MYSQL_BIN=mysql
+PEP8_BIN=pep8
+
+TEST_RUNNER=nosetests
+TEST_DATABASE_USER=root
+TEST_DATABASE_NAME=$(PACKAGE_NAME)
 
 
 all: help
@@ -25,23 +30,25 @@ help:
 	@echo "check - check package code style via pep8 utility."
 
 init:
-	pip install -r requirements.txt --use-mirrors
+	$(PIP_BIN) install -r requirements.txt
 
 inittest:
-	pip install -r test-requirements.txt --use-mirrors
+	$(PIP_BIN) install -r test-requirements.txt
 
 inittestdb:
-	mysql -uroot -e 'CREATE DATABASE IF NOT EXISTS $(TEST_DATABASE_NAME)'
-	mysql -uroot $(TEST_DATABASE_NAME) < $(PACKAGE_NAME)/sql/schema.sql
+	$(MYSQL_BIN) -u$(TEST_DATABASE_NAME) -e 'CREATE DATABASE IF NOT EXISTS $(TEST_DATABASE_NAME)'
+	$(MYSQL_BIN) -u$(TEST_DATABASE_NAME) $(TEST_DATABASE_NAME) < $(PACKAGE_NAME)/sql/schema.sql
 
 test: inittest inittestdb
-	MOCKERNAUT_SETTINGS=$(SETTINGS_PATH)/test_config.py nosetests -v $(TESTS_PATH)
+	MOCKERNAUT_SETTINGS=$(SETTINGS_PATH)/test_config.py $(TEST_RUNNER) -v $(TESTS_PATH)
 
 initdev:
-	pip install -r dev-requirements.txt --use-mirrors
+	$(PIP_BIN) install -r dev-requirements.txt
 
-runserver:
-	PYTHONPATH=$(PYTHONPATH):$(ROOT_PATH) MOCKERNAUT_SETTINGS=${SETTINGS_PATH}/dev_config.py $(BIN_PATH)/runserver.py
+runserver: init initdev
+	PYTHONPATH=$(PYTHONPATH):$(ROOT_PATH) \
+	MOCKERNAUT_SETTINGS=${SETTINGS_PATH}/dev_config.py \
+	$(ROOT_PATH)/bin/runserver.py
 
 clean: clean-build clean-pyc
 
@@ -56,4 +63,4 @@ clean-pyc:
 	find . -name '*~' -exec rm -f {} +
 
 check:
-	pep8 --exclude=dictconfig.py $(PACKAGE_PATH) $(TESTS_PATH)
+	$(PEP8_BIN) --exclude=dictconfig.py $(PACKAGE_PATH) $(TESTS_PATH)
