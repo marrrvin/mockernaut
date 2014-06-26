@@ -34,7 +34,7 @@ LOGGING = {
             'formatter': 'basic'
         },
         'null': {
-            'class': 'logging.NullHandler',
+            'class': 'mockernaut.compat.NullHandler',
             'level': 'DEBUG'
         }
     },
