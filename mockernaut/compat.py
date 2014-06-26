@@ -30,4 +30,4 @@ if sys.version_info[:2] < (2, 7):  # pragma: no cover
 else:
     import unittest
 
-    from logging.config import dictconfig
+    from logging.config import dictConfig
