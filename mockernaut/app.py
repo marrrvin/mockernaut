@@ -1,11 +1,11 @@
 
 from json import dumps
-from logging.config import dictConfig
 
 from flask import Flask
 from werkzeug.wrappers import Response
 from werkzeug._compat import string_types
 
+from .utils.dictconfig import dictConfig
 from .views.api import rules
 from .views.proxy import proxy
 from .storage import storage_class

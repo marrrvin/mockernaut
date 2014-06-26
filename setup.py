@@ -1,5 +1,6 @@
 
 from setuptools import setup
+from setuptools import find_packages
 
 from mockernaut import __version__
 
@@ -19,11 +20,7 @@ setup(
     url='http://github.com/marrrvin/mockernaut/',
     author='Sergey Orlov',
     author_email='foobar@list.ru',
-    packages=[
-        'mockernaut',
-        'mockernaut.client',
-        'mockernaut.views',
-    ],
+    packages=find_packages(),
     include_package_data=True,
     package_data={
         'mockernaut': ['sql/*.sql', 'schema/*.json']
