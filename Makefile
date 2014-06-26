@@ -41,4 +41,4 @@ clean-pyc:
 	find . -name '*~' -exec rm -f {} +
 
 check:
-	pep8 $(PACKAGE_PATH) $(TESTS_PATH)
+	pep8 --exclude=dictconfig.py $(PACKAGE_PATH) $(TESTS_PATH)
