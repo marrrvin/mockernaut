@@ -5,12 +5,12 @@ from flask import Flask
 from werkzeug.wrappers import Response
 from werkzeug._compat import string_types
 
-from .utils.dictconfig import dictConfig
 from .views.api import rules
 from .views.proxy import proxy
 from .storage import storage_class
 from .compat import iteritems
 from .compat import text_type
+from .compat import dictConfig
 from .errors import ValidationError
 from .errors import DoesNotExists
 

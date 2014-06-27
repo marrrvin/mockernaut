@@ -25,5 +25,9 @@ else:
 
 if sys.version_info[:2] < (2, 7):  # pragma: no cover
     import unittest2 as unittest
+
+    from .utils.dictconfig import dictConfig
 else:
     import unittest
+
+    from logging.config import dictconfig
