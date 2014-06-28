@@ -100,7 +100,9 @@ class MySQLStorage(object):
             con.commit()
 
             if cur.rowcount == 0:
-                raise DoesNotExists('Rule with id={id} does not exists.'.format(id=_id))
+                raise DoesNotExists(
+                    'Rule with id={id} does not exists.'.format(id=_id)
+                )
 
     def clear(self):
         with self.pool as con:
