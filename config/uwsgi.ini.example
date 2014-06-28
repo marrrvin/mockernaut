@@ -1,0 +1,7 @@
+[uwsgi]
+
+module = mockernaut.app:create_app()
+http = :9090
+env = MOCKERNAUT_SETTINGS=/path/to/config.py
+master = true
+processes = 4
