@@ -11,15 +11,11 @@ if PY3:
 
     import unittest.mock
 
-    iteritems = operator.methodcaller('items')
-
     text_type = str
 else:
     from urlparse import urljoin
 
     import mock
-
-    iteritems = operator.methodcaller('iteritems')
 
     text_type = unicode
 

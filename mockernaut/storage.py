@@ -33,7 +33,7 @@ class SafeMySQLConnectionPool(object):
 
 def _make_rule(data):
     if not data:
-        raise DoesNotExists
+        raise DoesNotExists('Rule does not exists.')
 
     data.pop('path')
     data['request'] = loads(data['request'])
@@ -100,7 +100,7 @@ class MySQLStorage(object):
             con.commit()
 
             if cur.rowcount == 0:
-                raise DoesNotExists
+                raise DoesNotExists('Rule with id={id} does not exists.'.format(id=_id))
 
     def clear(self):
         with self.pool as con:

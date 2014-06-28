@@ -4,33 +4,6 @@ v0.1
 *** proxy.find_by_request действительно должен находить правила. ***
 
 * Кешировать прочитанные схемы.
-* Деплой на uwsgi (примеры конфига) - добиться чтобы работало.
-* Не сериализуются стандартные ошибки flask:
-
-  Traceback (most recent call last):
-  File "/home/sergeyorlov/.virtualenvs/mockernaut/lib/python2.7/site-packages/Flask-0.10.1-py2.7.egg/flask/app.py", line 1836, in __call__
-    return self.wsgi_app(environ, start_response)
-  File "/home/sergeyorlov/.virtualenvs/mockernaut/lib/python2.7/site-packages/Flask-0.10.1-py2.7.egg/flask/app.py", line 1820, in wsgi_app
-    response = self.make_response(self.handle_exception(e))
-  File "/home/sergeyorlov/.virtualenvs/mockernaut/lib/python2.7/site-packages/Flask-0.10.1-py2.7.egg/flask/app.py", line 1403, in handle_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/sergeyorlov/.virtualenvs/mockernaut/lib/python2.7/site-packages/Flask-0.10.1-py2.7.egg/flask/app.py", line 1817, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/sergeyorlov/.virtualenvs/mockernaut/lib/python2.7/site-packages/Flask-0.10.1-py2.7.egg/flask/app.py", line 1478, in full_dispatch_request
-    response = self.make_response(rv)
-  File "/var/www/mockernaut/mockernaut/app.py", line 35, in make_response
-    rv = self.response_class(dumps(rv), headers=headers, status=status)
-  File "/usr/lib/python2.7/json/__init__.py", line 243, in dumps
-    return _default_encoder.encode(obj)
-  File "/usr/lib/python2.7/json/encoder.py", line 207, in encode
-    chunks = self.iterencode(o, _one_shot=True)
-  File "/usr/lib/python2.7/json/encoder.py", line 270, in iterencode
-    return _iterencode(o, 0)
-  File "/usr/lib/python2.7/json/encoder.py", line 184, in default
-    raise TypeError(repr(o) + " is not JSON serializable")
-TypeError: <NotFound '404: Not Found'> is not JSON serializable
-
-И вообще почему там html?
 
 * Выбрасывать исключения в клиенте + тесты на это поведение.
 * Не устанавливать каталоги config и tests - только пакет mockernaut. И вообще разобраться как устанавливать только желаемое.
