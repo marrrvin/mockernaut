@@ -72,7 +72,7 @@ class ClientTestCase(TestCase):
     @mock.patch('mockernaut.client.requests.delete')
     def test_delete(self, delete_mock):
         response_mock = mock.MagicMock()
-        response_mock.json.return_value = ''
+        response_mock.json.return_value = b''
         delete_mock.return_value = response_mock
 
         actual_result = self.client.delete(self.rule_data['id'])
@@ -81,4 +81,4 @@ class ClientTestCase(TestCase):
             self.base_url + self.api_path + str(self.rule_data['id'])
         )
 
-        self.assertEqual(actual_result, '')
+        self.assertEqual(actual_result, b'')

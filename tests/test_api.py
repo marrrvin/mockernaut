@@ -81,7 +81,7 @@ class DeleteRuleTestCase(ApiTestCase):
 
         self.assertEquals(response.status_code, 204)
         self.assertEquals(response.content_type, 'application/json')
-        self.assertEquals(response.data, '')
+        self.assertEquals(response.data, b'')
 
     def test_delete_non_existent_rule(self):
         response = self.client.delete(
@@ -90,4 +90,4 @@ class DeleteRuleTestCase(ApiTestCase):
 
         self.assertEquals(response.status_code, 204)
         self.assertEquals(response.content_type, 'application/json')
-        self.assertEquals(response.data, '')
+        self.assertEquals(response.data, b'')
