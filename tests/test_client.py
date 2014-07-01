@@ -1,5 +1,5 @@
 
-from json import dumps
+from flask.json import dumps
 
 from mockernaut.compat import mock
 from mockernaut.tests import TestCase
@@ -55,12 +55,12 @@ class ClientTestCase(TestCase):
         self.assertEquals(actual_rule, self.rule_data)
 
     @mock.patch('mockernaut.client.requests.post')
-    def test_add(self, post_mock):
+    def test_create(self, post_mock):
         response_mock = mock.MagicMock()
         response_mock.json.return_value = self.rule_data
         post_mock.return_value = response_mock
 
-        actual_rule = self.client.add(self.rule_data)
+        actual_rule = self.client.create(self.rule_data)
 
         post_mock.assert_called_once_with(
             self.base_url + self.api_path,

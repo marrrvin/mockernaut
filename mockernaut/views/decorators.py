@@ -1,9 +1,9 @@
 
-from json import loads
 from functools import wraps
 
 from flask import request
 from flask import g
+from flask.json import loads
 from jsonschema import validate
 
 from ..compat import text_type

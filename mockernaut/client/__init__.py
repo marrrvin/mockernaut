@@ -1,5 +1,5 @@
 
-from json import dumps
+from flask.json import dumps
 
 import requests
 
@@ -31,7 +31,7 @@ class Client(object):
 
         return response.json()
 
-    def add(self, rule):
+    def create(self, rule):
         response = requests.post(
             join(self._base_url, self._api_path),
             data=dumps(rule)
