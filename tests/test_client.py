@@ -1,9 +1,11 @@
 
+import responses
 from flask.json import dumps
 
-from mockernaut.compat import mock
 from mockernaut.tests import TestCase
 from mockernaut.client import Client
+from mockernaut.client import join
+from mockernaut.client import HTTPError
 
 
 class ClientTestCase(TestCase):
@@ -24,61 +26,90 @@ class ClientTestCase(TestCase):
             },
         }
 
-    @mock.patch('mockernaut.client.requests.get')
-    def test_get(self, get_mock):
-        response_mock = mock.MagicMock()
-        response_mock.json.return_value = self.rule_data
-        get_mock.return_value = response_mock
-
-        actual_rule = self.client.get(self.rule_data['id'])
-
-        get_mock.assert_called_once_with(
-            self.base_url + self.api_path + str(self.rule_data['id'])
+    @responses.activate
+    def test_get(self):
+        responses.add(
+            responses.GET,
+            join(self.base_url, self.api_path, self.rule_data['id']),
+            body=dumps(self.rule_data),
+            status=200,
+            content_type='application/json'
         )
 
+        actual_rule = self.client.get(self.rule_data['id'])
         self.assertEquals(actual_rule, self.rule_data)
 
-    @mock.patch('mockernaut.client.requests.get')
-    def test_list(self, get_mock):
-        response_mock = mock.MagicMock()
-        response_mock.json.return_value = [self.rule_data]
-        get_mock.return_value = response_mock
+    @responses.activate
+    def test_list(self):
+        responses.add(
+            responses.GET,
+            join(self.base_url, self.api_path),
+            body=dumps([self.rule_data]),
+            status=200,
+            content_type='application/json'
+        )
 
         rule_list = self.client.list()
 
         self.assertIsInstance(rule_list, list)
 
         actual_rule = rule_list.pop()
-
-        get_mock.assert_called_once_with(self.base_url + self.api_path)
-
         self.assertEquals(actual_rule, self.rule_data)
 
-    @mock.patch('mockernaut.client.requests.post')
-    def test_create(self, post_mock):
-        response_mock = mock.MagicMock()
-        response_mock.json.return_value = self.rule_data
-        post_mock.return_value = response_mock
+    @responses.activate
+    def test_create(self):
+        responses.add(
+            responses.POST,
+            join(self.base_url, self.api_path),
+            body=dumps(self.rule_data),
+            status=200,
+            content_type='application/json'
+        )
 
         actual_rule = self.client.create(self.rule_data)
-
-        post_mock.assert_called_once_with(
-            self.base_url + self.api_path,
-            data=dumps(self.rule_data)
-        )
-
         self.assertEqual(actual_rule, self.rule_data)
 
-    @mock.patch('mockernaut.client.requests.delete')
-    def test_delete(self, delete_mock):
-        response_mock = mock.MagicMock()
-        response_mock.json.return_value = b''
-        delete_mock.return_value = response_mock
-
-        actual_result = self.client.delete(self.rule_data['id'])
-
-        delete_mock.assert_called_once_with(
-            self.base_url + self.api_path + str(self.rule_data['id'])
+    @responses.activate
+    def test_create_bad_request(self):
+        responses.add(
+            responses.POST,
+            join(self.base_url, self.api_path),
+            body=dumps({
+                u'error': u'ValidationError',
+                u'message': u'Invalid field non-existent.'
+            }),
+            status=400,
+            content_type='application/json'
         )
 
+        with self.assertRaises(HTTPError):
+            self.client.create(self.rule_data)
+
+    @responses.activate
+    def test_delete(self):
+        responses.add(
+            responses.DELETE,
+            join(self.base_url, self.api_path, self.rule_data['id']),
+            body=b'""',
+            status=200,
+            content_type='application/json'
+        )
+
+        actual_result = self.client.delete(self.rule_data['id'])
         self.assertEqual(actual_result, b'')
+
+    @responses.activate
+    def test_delete_not_found(self):
+        responses.add(
+            responses.DELETE,
+            join(self.base_url, self.api_path, 0),
+            body=dumps({
+                u'error': u'NotFound',
+                u'message': u'Rule not found.'
+            }),
+            status=404,
+            content_type='application/json'
+        )
+
+        with self.assertRaises(HTTPError):
+            self.client.delete(0)

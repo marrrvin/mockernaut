@@ -2,6 +2,7 @@
 from flask.json import dumps
 
 import requests
+from requests import HTTPError
 
 from ..compat import urljoin
 
@@ -9,7 +10,7 @@ from ..compat import urljoin
 def join(*parts):
     base = ''
 
-    return ''.join(map(lambda e: urljoin(base, e), parts))
+    return ''.join(map(lambda e: urljoin(base, '{0}'.format(e)), parts))
 
 
 class Client(object):
