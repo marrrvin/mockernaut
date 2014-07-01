@@ -23,3 +23,10 @@ env:
 
 before_script:
   - "make check"
+
+notifications:
+  email:
+    recipients:
+      - foobar@list.ru
+    on_success: never
+    on_failure: change
