@@ -40,7 +40,7 @@ inittestdb:
 	$(MYSQL_BIN) -u$(TEST_DATABASE_USER) $(TEST_DATABASE_NAME) < $(PACKAGE_NAME)/sql/schema.sql
 
 test: inittestdb
-	MOCKERNAUT_SETTINGS=$(SETTINGS_PATH)/test_config.py $(TEST_RUNNER) -v $(TESTS_PATH)
+	MOCKERNAUT_SETTINGS=$(SETTINGS_PATH)/test_config.py $(TEST_RUNNER) -v --nocapture $(TESTS_PATH)
 
 initdev:
 	$(PIP_BIN) install -r dev-requirements.txt
