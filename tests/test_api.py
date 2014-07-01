@@ -59,8 +59,8 @@ class CreateRuleTestCase(ApiTestCase):
 
     def test_create_rule_invalid_data(self):
         rule_data = {
-            'request': 'error',
-            'wrong-field': None
+            u'request': 'error',
+            u'wrong-field': None
         }
 
         response = self.client.post(self.path, data=dumps(rule_data))

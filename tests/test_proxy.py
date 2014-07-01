@@ -5,7 +5,7 @@ from mockernaut.tests import TestCase
 class ApiTestCase(TestCase):
     def test_one_rule(self):
         status_code = 404
-        body = b'Not found'
+        body = u'Not found'
         content_type = u'text/plain'
 
         self.storage.create({
@@ -23,4 +23,4 @@ class ApiTestCase(TestCase):
 
         self.assertEqual(status_code, resp.status_code)
         self.assertEqual(content_type, resp.content_type)
-        self.assertEqual(body, resp.data)
+        self.assertEqual(body, b'Not found')
