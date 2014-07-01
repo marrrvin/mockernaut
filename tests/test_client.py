@@ -90,13 +90,13 @@ class ClientTestCase(TestCase):
         responses.add(
             responses.DELETE,
             join(self.base_url, self.api_path, self.rule_data['id']),
-            body=b'""',
+            body=dumps(''),
             status=200,
             content_type='application/json'
         )
 
         actual_result = self.client.delete(self.rule_data['id'])
-        self.assertEqual(actual_result, b'')
+        self.assertEqual(actual_result, '')
 
     @responses.activate
     def test_delete_not_found(self):
