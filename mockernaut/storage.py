@@ -53,9 +53,9 @@ class MySQLStorage(object):
             cur = con.cursor(cursor_class=MySQLCursorDict)
             cur.execute("SELECT * FROM rules WHERE path=%s", (path,))
 
-            data = cur.fetchone()
+            data = cur.fetchall()
 
-            return _make_rule(data)
+            return [_make_rule(item) for item in data]
 
     def get_by_id(self, _id):
         with self.pool as con:

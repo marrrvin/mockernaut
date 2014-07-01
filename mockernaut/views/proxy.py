@@ -1,6 +1,7 @@
 
 from flask import Blueprint
 from flask import request
+from flask import Response
 from flask import current_app as app
 
 proxy = Blueprint('proxy', __name__)
@@ -17,4 +18,8 @@ def main():
     rule = find_by_request(request)
     response = rule['response']
 
-    return response['body'], response['status'], response['headers']
+    return Response(
+        response['body'],
+        status=response['status'],
+        headers=response['headers']
+    )

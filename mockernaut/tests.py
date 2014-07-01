@@ -15,7 +15,8 @@ class TestCase(SimpleTestCase):
         self.app.config['TESTING'] = True
 
         self.client = self.app.test_client()
+        self.storage = self.app.storage
 
         self.path = self.app.config['API_PATH']
 
-        self.addCleanup(self.app.storage.clear)
+        self.addCleanup(self.storage.clear)
