@@ -1,8 +1,20 @@
 
-from mockernaut.tests import ApiTestCase
+from mockernaut.tests import TestCase
 
 
-class StorageTestCase(ApiTestCase):
+class StorageTestCase(TestCase):
+    def setUp(self):
+        self.rule_data = {
+            u'request': {
+                u'path': u'/',
+            },
+            u'response': {
+                u'status': 200,
+                u'headers': [[u'Content-type', u'application/json']],
+                u'body': u'OK'
+            },
+        }
+
     def test_base(self):
         storage = self.app.storage
 

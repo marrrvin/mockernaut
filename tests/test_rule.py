@@ -1,10 +1,10 @@
 
-from mockernaut.tests import ApiTestCase
+from mockernaut.tests import SimpleTestCase
 
 from mockernaut.client.rule import rule
 
 
-class RuleTestCase(ApiTestCase):
+class RuleTestCase(SimpleTestCase):
     def test_base(self):
         r = rule({}, {})
 

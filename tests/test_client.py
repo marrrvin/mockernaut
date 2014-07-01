@@ -2,19 +2,27 @@
 from json import dumps
 
 from mockernaut.compat import mock
-from mockernaut.tests import ApiTestCase
+from mockernaut.tests import TestCase
 from mockernaut.client import Client
 
 
-class ClientTestCase(ApiTestCase):
+class ClientTestCase(TestCase):
     def setUp(self):
-        super(ClientTestCase, self).setUp()
-
         self.base_url = 'http://non-existent-url-13fff2s7f38s78.com'
         self.api_path = '/mockernaut/'
         self.client = Client(base_url=self.base_url, api_path=self.api_path)
 
-        self.rule_data['id'] = 1
+        self.rule_data = {
+            u'id': 1,
+            u'request': {
+                u'path': u'/',
+            },
+            u'response': {
+                u'status': 200,
+                u'headers': [[u'Content-type', u'application/json']],
+                u'body': u'OK'
+            },
+        }
 
     @mock.patch('mockernaut.client.requests.get')
     def test_get(self, get_mock):

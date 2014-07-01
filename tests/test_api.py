@@ -2,7 +2,21 @@
 from json import loads
 from json import dumps
 
-from mockernaut.tests import ApiTestCase
+from mockernaut.tests import TestCase
+
+
+class ApiTestCase(TestCase):
+    def setUp(self):
+        self.rule_data = {
+            u'request': {
+                u'path': u'/',
+            },
+            u'response': {
+                u'status': 200,
+                u'headers': [[u'Content-type', u'application/json']],
+                u'body': u'OK'
+            },
+        }
 
 
 class RulesListTestCase(ApiTestCase):
