@@ -1,6 +1,5 @@
 
 import sys
-import operator
 import logging
 
 

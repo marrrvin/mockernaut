@@ -1,8 +1,8 @@
 
-from json import loads
 from json import dumps
 
 from mockernaut.tests import TestCase
+from mockernaut.tests import loads
 
 
 class ApiTestCase(TestCase):

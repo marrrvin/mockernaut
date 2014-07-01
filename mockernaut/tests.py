@@ -1,4 +1,6 @@
 
+import json
+
 from .compat import unittest
 from .app import create_app
 
@@ -20,3 +22,7 @@ class TestCase(SimpleTestCase):
         self.path = self.app.config['API_PATH']
 
         self.addCleanup(self.storage.clear)
+
+
+def loads(raw_data, encoding='utf-8'):
+    return json.loads(raw_data.decode(encoding))
