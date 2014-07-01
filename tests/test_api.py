@@ -49,7 +49,7 @@ class GetRuleByIdTestCase(ApiTestCase):
 class CreateRuleTestCase(ApiTestCase):
     def test_create_rule_valid_data(self):
         response = self.client.post(self.path, data=dumps(self.rule_data))
-        print(response.data)
+
         self.assertEquals(response.status_code, 201)
         self.assertEquals(response.content_type, 'application/json')
 
@@ -64,7 +64,7 @@ class CreateRuleTestCase(ApiTestCase):
         }
 
         response = self.client.post(self.path, data=dumps(rule_data))
-        print(response.data)
+
         self.assertEquals(response.status_code, 400)
         self.assertEquals(response.content_type, 'application/json')
 

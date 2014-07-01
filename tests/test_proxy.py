@@ -18,8 +18,8 @@ class ApiTestCase(TestCase):
             },
         })
 
-        resp = self.client.get('/')
+        response = self.client.get('/')
 
-        self.assertEqual(status_code, resp.status_code)
-        self.assertEqual(content_type, resp.content_type)
-        self.assertEqual(b'Not found', resp.data)
+        self.assertEqual(status_code, response.status_code)
+        self.assertEqual(content_type, response.content_type)
+        self.assertEqual(b'Not found', response.data)
