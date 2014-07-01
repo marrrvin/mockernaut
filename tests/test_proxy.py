@@ -5,7 +5,7 @@ from mockernaut.tests import TestCase
 class ApiTestCase(TestCase):
     def test_one_rule(self):
         status_code = 404
-        body = u'Not found'
+        body = b'Not found'
         content_type = u'text/plain'
 
         self.storage.create({
