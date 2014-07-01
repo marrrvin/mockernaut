@@ -39,13 +39,13 @@ inittestdb:
 	$(MYSQL_BIN) -u$(TEST_DATABASE_USER) -e 'CREATE DATABASE IF NOT EXISTS $(TEST_DATABASE_NAME)'
 	$(MYSQL_BIN) -u$(TEST_DATABASE_USER) $(TEST_DATABASE_NAME) < $(PACKAGE_NAME)/sql/schema.sql
 
-test: inittest inittestdb
+test: inittestdb
 	MOCKERNAUT_SETTINGS=$(SETTINGS_PATH)/test_config.py $(TEST_RUNNER) -v $(TESTS_PATH)
 
 initdev:
 	$(PIP_BIN) install -r dev-requirements.txt
 
-runserver: init initdev
+runserver:
 	PYTHONPATH=$(PYTHONPATH):$(ROOT_PATH) \
 	MOCKERNAUT_SETTINGS=${SETTINGS_PATH}/dev_config.py \
 	$(ROOT_PATH)/bin/runserver.py
