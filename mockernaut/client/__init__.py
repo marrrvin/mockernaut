@@ -21,6 +21,7 @@ class Client(object):
         response = requests.get(
             join(self._base_url, self._api_path, '{_id}'.format(_id=_id))
         )
+        response.raise_for_status()
 
         return response.json()
 
@@ -28,6 +29,7 @@ class Client(object):
         response = requests.get(
             urljoin(self._base_url, self._api_path),
         )
+        response.raise_for_status()
 
         return response.json()
 
@@ -36,6 +38,7 @@ class Client(object):
             join(self._base_url, self._api_path),
             data=dumps(rule)
         )
+        response.raise_for_status()
 
         return response.json()
 
@@ -43,5 +46,6 @@ class Client(object):
         response = requests.delete(
             join(self._base_url, self._api_path, '{_id}'.format(_id=_id))
         )
+        response.raise_for_status()
 
         return response.json()
