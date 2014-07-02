@@ -7,12 +7,14 @@ PY3 = sys.version_info[0] >= 3
 
 if PY3:
     from urllib.parse import urljoin
+    from urllib.parse import urlparse
 
     from unittest import mock
 
     text_type = str
 else:
     from urlparse import urljoin
+    from urlparse import urlparse
 
     import mock
 
