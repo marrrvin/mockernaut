@@ -1,5 +1,7 @@
+
 import os
-from json import load
+
+from flask.json import load
 
 import mockernaut
 
@@ -7,11 +9,22 @@ import mockernaut
 ROOT_DIR = os.path.dirname(os.path.abspath(mockernaut.__file__))
 
 
-def load_schema(path):
+class DocContainer(object):
+    pass
+
+
+docs = None
+
+
+def load_schema(name, path):
+    global docs
+
+    if not docs:
+        docs = DocContainer()
+
     full_path = os.path.join(ROOT_DIR, path)
-
     with open(full_path) as fp:
-        return load(fp)
+        setattr(docs, name, load(fp))
 
 
-RULE = load_schema('schema/rule.json')
+load_schema('rule', 'schema/rule.json')

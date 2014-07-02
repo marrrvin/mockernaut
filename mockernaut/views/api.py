@@ -3,7 +3,7 @@ from flask import g
 from flask import current_app as app
 
 from .decorators import schema
-from .schema import RULE
+from .schema import docs
 
 
 rules = Blueprint('rules', __name__)
@@ -20,7 +20,7 @@ def get_rule(rule_id):
 
 
 @rules.route('', methods=['POST'])
-@schema(RULE)
+@schema(docs.rule)
 def add_rule():
     return app.storage.create(g.doc), 201
 
