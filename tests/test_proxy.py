@@ -19,7 +19,7 @@ class ApiTestCase(TestCase):
         })
 
         response = self.client.get('/')
-        print(response.data)
+
         self.assertEqual(status_code, response.status_code)
         self.assertEqual(content_type, response.content_type)
         self.assertEqual(b'Not found', response.data)
@@ -51,7 +51,6 @@ class ApiTestCase(TestCase):
         })
 
         response = self.client.post('/')
-        print(response.data)
 
         self.assertEqual(200, response.status_code)
         self.assertEqual(content_type, response.content_type)

@@ -7,6 +7,7 @@ from flask import Response
 from flask import current_app as app
 
 from mockernaut.compat import urlparse
+from mockernaut.compat import iteritems
 
 
 proxy = Blueprint('proxy', __name__)
@@ -46,7 +47,7 @@ def find_by_request(req):
             score[number] += 1
 
     winner_number, best_score = max(
-        score.iteritems(), key=operator.itemgetter(1)
+        iteritems(score), key=operator.itemgetter(1)
     )
 
     return rules[winner_number]

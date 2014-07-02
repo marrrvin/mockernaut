@@ -12,6 +12,8 @@ if PY3:
     from unittest import mock
 
     text_type = str
+
+    iteritems = dict.items
 else:
     from urlparse import urljoin
     from urlparse import urlparse
@@ -19,6 +21,8 @@ else:
     import mock
 
     text_type = unicode
+
+    iteritems = dict.iteritems
 
 
 if sys.version_info[:2] < (2, 7):  # pragma: no cover
