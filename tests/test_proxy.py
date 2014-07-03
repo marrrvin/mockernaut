@@ -1,8 +1,21 @@
 
+from flask.json import loads
+
 from mockernaut.tests import TestCase
 
 
 class ApiTestCase(TestCase):
+    def test_no_rule(self):
+        response = self.client.get('/')
+
+        self.assertEqual(404, response.status_code)
+        self.assertEqual('application/json', response.content_type)
+        error = loads(response.data)
+
+        self.assertIsInstance(error, dict)
+        self.assertIn('type', error)
+        self.assertEqual(error['type'], 'DoesNotExists')
+
     def test_match_single_rule(self):
         status_code = 404
         content_type = u'text/plain'

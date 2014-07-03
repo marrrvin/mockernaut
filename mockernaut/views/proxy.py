@@ -6,8 +6,9 @@ from flask import request
 from flask import Response
 from flask import current_app as app
 
-from mockernaut.compat import urlparse
 from mockernaut.compat import iteritems
+from mockernaut.compat import urlparse
+from mockernaut.errors import DoesNotExists
 from mockernaut.errors import MultipleChoice
 
 
@@ -86,11 +87,14 @@ def find_rule_by_request(req):
 
         scores[number] = score
 
+    if not scores:
+        raise DoesNotExists('Rule not found.')
+
     max_score = max(iteritems(scores), key=operator.itemgetter(1))[1]
     winner_numbers = {number: score for number, score in iteritems(scores) if score == max_score}
 
     if len(winner_numbers) > 1:
-        raise MultipleChoice('More then one ruleRule not found.')
+        raise MultipleChoice('More then one rule found.')
 
     winner_number, _ = [i for i in iteritems(winner_numbers)][0]
 
