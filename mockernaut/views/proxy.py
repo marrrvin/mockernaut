@@ -91,11 +91,10 @@ def find_rule_by_request(req):
         raise DoesNotExists('Rule not found.')
 
     max_score = max(iteritems(scores), key=operator.itemgetter(1))[1]
-    winner_numbers = {
-        number: score
-        for number, score in iteritems(scores)
+    winner_numbers = dict([
+        (number, score) for number, score in iteritems(scores)
         if score == max_score
-    }
+    ])
 
     if len(winner_numbers) > 1:
         raise MultipleChoice('More then one rule found.')
