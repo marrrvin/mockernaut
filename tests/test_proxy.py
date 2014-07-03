@@ -55,3 +55,39 @@ class ApiTestCase(TestCase):
         self.assertEqual(200, response.status_code)
         self.assertEqual(content_type, response.content_type)
         self.assertEqual(b'POST', response.data)
+
+    def test_match_same_path_vary_on_arg(self):
+        content_type = u'text/plain'
+
+        self.storage.create({
+            u'request': {
+                u'path': u'/',
+                u'methods': ['GET'],
+            },
+            u'response': {
+                u'status': 200,
+                u'headers': [[u'Content-type', content_type]],
+                u'body': u'Simple GET'
+            },
+        })
+        args = {
+            'key': 'value'
+        }
+        self.storage.create({
+            u'request': {
+                u'path': u'/',
+                u'methods': ['GET'],
+                u'args': args
+            },
+            u'response': {
+                u'status': 200,
+                u'headers': [[u'Content-type', content_type]],
+                u'body': u'GET and arg'
+            },
+        })
+
+        response = self.client.get('/' + '?key=value')
+
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(content_type, response.content_type)
+        self.assertEqual(b'GET and arg', response.data)
