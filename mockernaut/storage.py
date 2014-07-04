@@ -5,7 +5,7 @@ from json import loads
 from mysql.connector.pooling import MySQLConnectionPool
 from mysql.connector import cursor
 
-from .errors import DoesNotExists
+from .errors import DoesNotExist
 
 
 class MySQLCursorDict(cursor.MySQLCursor):
@@ -26,7 +26,7 @@ def _make_rule(data):
 
 
 class MySQLStorage(object):
-    DoesNotExists = DoesNotExists
+    DoesNotExist = DoesNotExist
 
     def __init__(self, **kwargs):
         self.pool = MySQLConnectionPool(**kwargs)
@@ -59,7 +59,7 @@ class MySQLStorage(object):
 
             data = cur.fetchone()
             if not data:
-                raise DoesNotExists('Rule does not exists.')
+                raise DoesNotExist('Rule does not exists.')
 
             return _make_rule(data)
         finally:
@@ -124,7 +124,7 @@ class MySQLStorage(object):
             con.commit()
 
             if cur.rowcount == 0:
-                raise DoesNotExists(
+                raise DoesNotExist(
                     'Rule with id={id} does not exists.'.format(id=_id)
                 )
         except:

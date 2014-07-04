@@ -30,7 +30,7 @@ def add_rule():
 def delete_rule(rule_id):
     try:
         app.storage.delete_by_id(rule_id)
-    except app.storage.DoesNotExists:
+    except app.storage.DoesNotExist:
         pass
 
     return b'', 204

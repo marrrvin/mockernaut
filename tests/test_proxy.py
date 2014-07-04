@@ -14,7 +14,7 @@ class ApiTestCase(TestCase):
 
         self.assertIsInstance(error, dict)
         self.assertIn('type', error)
-        self.assertEqual(error['type'], 'DoesNotExists')
+        self.assertEqual(error['type'], 'DoesNotExist')
 
     def test_match_single_rule(self):
         status_code = 404
