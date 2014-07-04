@@ -9,3 +9,7 @@ class DoesNotExist(Exception):
 
 class MultipleChoice(Exception):
     pass
+
+
+class NoMatch(Exception):
+    pass

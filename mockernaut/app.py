@@ -15,6 +15,7 @@ from .errors import HTTPException
 from .errors import ValidationError
 from .errors import DoesNotExist
 from .errors import MultipleChoice
+from .errors import NoMatch
 
 
 class JsonResponse(Response):
@@ -68,6 +69,7 @@ class App(Flask):
 EXCEPTION_TO_STATUS_CODE = {
     ValidationError: 400,
     DoesNotExist: 404,
+    NoMatch: 404,
     MultipleChoice: 409
 }
 

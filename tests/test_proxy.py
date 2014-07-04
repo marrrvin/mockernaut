@@ -17,7 +17,7 @@ class ApiTestCase(TestCase):
         self.assertEqual(error['type'], 'DoesNotExist')
 
     def test_match_single_rule(self):
-        status_code = 404
+        status_code = 200
         content_type = u'text/plain'
 
         self.storage.create({
@@ -27,7 +27,7 @@ class ApiTestCase(TestCase):
             u'response': {
                 u'status': status_code,
                 u'headers': [[u'Content-type', content_type]],
-                u'body': u'Not found'
+                u'body': u'Single rule'
             },
         })
 
@@ -35,7 +35,7 @@ class ApiTestCase(TestCase):
 
         self.assertEqual(status_code, response.status_code)
         self.assertEqual(content_type, response.content_type)
-        self.assertEqual(b'Not found', response.data)
+        self.assertEqual(b'Single rule', response.data)
 
     def test_match_same_path_different_methods(self):
         content_type = u'text/plain'
