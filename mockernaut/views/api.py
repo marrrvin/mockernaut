@@ -1,3 +1,4 @@
+
 from flask import Blueprint
 from flask import g
 from flask import current_app as app
@@ -32,4 +33,4 @@ def delete_rule(rule_id):
     except app.storage.DoesNotExists:
         pass
 
-    return '', 204
+    return b'', 204

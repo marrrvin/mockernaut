@@ -106,24 +106,26 @@ def create_app():
 
     app.config.from_envvar('MOCKERNAUT_SETTINGS')
 
-    dictConfig(app.config['LOGGING'])
+    cfg = app.config
+
+    dictConfig(cfg['LOGGING'])
 
     app.logger.info(
         'Init storage {user}@{host}:{port}/{name}?pool_size={size}'.format(
-            user=app.config['DATABASE_USER'],
-            host=app.config['DATABASE_HOST'],
-            port=app.config['DATABASE_PORT'],
-            name=app.config['DATABASE_NAME'],
-            size=app.config['DATABASE_POOL_SIZE']
+            user=cfg['DATABASE_USER'],
+            host=cfg['DATABASE_HOST'],
+            port=cfg['DATABASE_PORT'],
+            name=cfg['DATABASE_NAME'],
+            size=cfg['DATABASE_POOL_SIZE']
         ))
 
     storage = storage_class(
-        host=app.config['DATABASE_HOST'],
-        port=app.config['DATABASE_PORT'],
-        user=app.config['DATABASE_USER'],
-        passwd=app.config['DATABASE_PASSWORD'],
-        database=app.config['DATABASE_NAME'],
-        pool_size=app.config['DATABASE_POOL_SIZE']
+        host=cfg['DATABASE_HOST'],
+        port=cfg['DATABASE_PORT'],
+        user=cfg['DATABASE_USER'],
+        passwd=cfg['DATABASE_PASSWORD'],
+        database=cfg['DATABASE_NAME'],
+        pool_size=cfg['DATABASE_POOL_SIZE']
     )
 
     app.logger.info('Clear storage.')
@@ -136,7 +138,7 @@ def create_app():
         proxy, url_prefix='/'
     )
     app.register_blueprint(
-        rules, url_prefix='{api_path}'.format(api_path=app.config['API_PATH'])
+        rules, url_prefix='{path}'.format(path=cfg['API_PATH'])
     )
 
     app.logger.debug('Register error handler.')
