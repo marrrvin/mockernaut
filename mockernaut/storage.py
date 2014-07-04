@@ -17,24 +17,7 @@ class MySQLCursorDict(cursor.MySQLCursor):
         return None
 
 
-class SafeMySQLConnectionPool(object):
-    def __init__(self, pool):
-        self.pool = pool
-        self.con = None
-
-    def __enter__(self):
-        self.con = self.pool.get_connection()
-
-        return self.con
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.con.close()
-
-
 def _make_rule(data):
-    if not data:
-        raise DoesNotExists('Rule does not exists.')
-
     data.pop('path')
     data['request'] = loads(data['request'])
     data['response'] = loads(data['response'])
@@ -46,40 +29,70 @@ class MySQLStorage(object):
     DoesNotExists = DoesNotExists
 
     def __init__(self, **kwargs):
-        self.pool = SafeMySQLConnectionPool(MySQLConnectionPool(**kwargs))
+        self.pool = MySQLConnectionPool(**kwargs)
 
     def get_by_path(self, path):
-        with self.pool as con:
+        con = None
+        cur = None
+        try:
+            con = self.pool.get_connection()
+
             cur = con.cursor(cursor_class=MySQLCursorDict)
             cur.execute("SELECT * FROM rules WHERE path=%s", (path,))
 
             data = cur.fetchall()
 
             return [_make_rule(item) for item in data]
+        finally:
+            if cur is not None:
+                cur.close()
+            if con is not None:
+                con.close()
 
     def get_by_id(self, _id):
-        with self.pool as con:
+        con = None
+        cur = None
+        try:
+            con = self.pool.get_connection()
             cur = con.cursor(cursor_class=MySQLCursorDict)
             cur.execute("SELECT * FROM rules WHERE id=%s", (_id,))
 
             data = cur.fetchone()
+            if not data:
+                raise DoesNotExists('Rule does not exists.')
 
             return _make_rule(data)
+        finally:
+            if cur is not None:
+                cur.close()
+            if con is not None:
+                con.close()
 
     def get_list(self):
-        with self.pool as con:
+        con = None
+        cur = None
+        try:
+            con = self.pool.get_connection()
             cur = con.cursor(cursor_class=MySQLCursorDict)
             cur.execute("SELECT * FROM rules")
 
             data = cur.fetchall()
 
             return [_make_rule(item) for item in data]
+        finally:
+            if cur is not None:
+                cur.close()
+            if con is not None:
+                con.close()
 
     def create(self, item):
         sql = 'INSERT INTO `rules` (`path`, `request`, `response`)' \
               'VALUES (%s, %s, %s)'
 
-        with self.pool as con:
+        con = None
+        cur = None
+        try:
+            con = self.pool.get_connection()
             cur = con.cursor(cursor_class=MySQLCursorDict)
 
             cur.execute(sql, (
@@ -91,10 +104,21 @@ class MySQLStorage(object):
 
             con.commit()
 
-        return item
+            return item
+        except:
+            if con is not None:
+                con.rollback()
+        finally:
+            if cur is not None:
+                cur.close()
+            if con is not None:
+                con.close()
 
     def delete_by_id(self, _id):
-        with self.pool as con:
+        con = None
+        cur = None
+        try:
+            con = self.pool.get_connection()
             cur = con.cursor()
             cur.execute("DELETE FROM rules WHERE id=%s", (_id,))
             con.commit()
@@ -103,12 +127,31 @@ class MySQLStorage(object):
                 raise DoesNotExists(
                     'Rule with id={id} does not exists.'.format(id=_id)
                 )
+        except:
+            if con is not None:
+                con.rollback()
+        finally:
+            if cur is not None:
+                cur.close()
+            if con is not None:
+                con.close()
 
     def clear(self):
-        with self.pool as con:
+        con = None
+        cur = None
+        try:
+            con = self.pool.get_connection()
             cur = con.cursor()
             cur.execute('TRUNCATE TABLE `rules`')
             con.commit()
+        except:
+            if con is not None:
+                con.rollback()
+        finally:
+            if cur is not None:
+                cur.close()
+            if con is not None:
+                con.close()
 
 
 storage_class = MySQLStorage
