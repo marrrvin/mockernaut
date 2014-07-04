@@ -90,10 +90,7 @@ def handle_exception(exc):
             'message': exc.message
         }
     else:
-        try:
-            status_code = EXCEPTION_TO_STATUS_CODE[exc_class]
-        except KeyError:
-            status_code = 500
+        status_code = EXCEPTION_TO_STATUS_CODE.get(exc_class, 500)
 
         error = {
             'type': exc_class.__name__,
