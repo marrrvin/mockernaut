@@ -42,6 +42,9 @@ inittestdb:
 test: inittestdb
 	MOCKERNAUT_SETTINGS=$(SETTINGS_PATH)/test_config.py $(TEST_RUNNER) -v --nocapture $(TESTS_PATH)
 
+testcoverage:
+	MOCKERNAUT_SETTINGS=$(SETTINGS_PATH)/test_config.py $(TEST_RUNNER) -v --nocapture --with-coverage --cover-package=mockernaut --cover-html $(TESTS_PATH)
+
 initdev:
 	$(PIP_BIN) install -r dev-requirements.txt
 
