@@ -6,6 +6,7 @@ from flask import current_app as app
 
 from mockernaut.views.rule import find_rule_by_request
 
+
 proxy = Blueprint('proxy', __name__)
 
 

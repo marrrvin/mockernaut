@@ -85,13 +85,13 @@ def find_rule_by_request(rules, req):
         except NoMatch:
             continue
 
-    # FIXME
-    if len(rules) == 1:
-        return rules[0]
-
     winners = _get_items_with_max_values(scores)
     if len(winners) > 1:
-        raise MultipleChoice('More then one rule was found.')
+        raise MultipleChoice(
+            'More then one rule was found for path={path}.'.format(
+                path=req.path
+            )
+        )
 
     winner_number, _ = [i for i in iteritems(winners)].pop()
 

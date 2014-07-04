@@ -16,11 +16,20 @@ class StorageTestCase(TestCase):
             },
         }
 
-    def test_base(self):
+    def test_crud(self):
         storage = self.app.storage
+
+        rule_list = storage.get_list()
+        self.assertEquals(rule_list, [])
 
         rule = storage.create(self.rule_data)
         _id = rule['id']
+
+        rule_list = storage.get_list()
+        actual_rule = rule_list.pop()
+        self.assertEquals(rule, actual_rule)
+
+        self.assertEquals(rule_list, [])
 
         actual_rule = storage.get_by_id(_id)
         self.assertEquals(rule, actual_rule)

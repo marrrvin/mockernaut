@@ -56,6 +56,7 @@ class Rule(object):
 
 
 def rule(request, response):
+    # TODO: write convenient rule builder.
     r = Rule()
 
     return r.to_dict()

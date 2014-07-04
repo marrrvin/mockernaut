@@ -19,7 +19,7 @@ class ApiTestCase(TestCase):
         }
 
 
-class RulesListTestCase(ApiTestCase):
+class RuleListTestCase(ApiTestCase):
     def test_get_empty_rules_list(self):
         response = self.client.get(self.path)
 
@@ -35,7 +35,7 @@ class RulesListTestCase(ApiTestCase):
 class GetRuleByIdTestCase(ApiTestCase):
     def test_get_rule_by_non_existent_id(self):
         response = self.client.get(
-            '{path}/{_id}'.format(path=self.path, _id=0)
+            '{path}/{id}'.format(path=self.path, id=0)
         )
 
         self.assertEquals(response.status_code, 404)
@@ -78,7 +78,7 @@ class CreateRuleTestCase(ApiTestCase):
 class DeleteRuleTestCase(ApiTestCase):
     def test_delete_existent_rule(self):
         response = self.client.delete(
-            '{path}/{_id}'.format(path=self.path, _id=0)
+            '{path}/{id}'.format(path=self.path, id=0)
         )
 
         self.assertEquals(response.status_code, 204)
@@ -87,7 +87,7 @@ class DeleteRuleTestCase(ApiTestCase):
 
     def test_delete_non_existent_rule(self):
         response = self.client.delete(
-            '{path}/{_id}'.format(path=self.path, _id=0)
+            '{path}/{id}'.format(path=self.path, id=0)
         )
 
         self.assertEquals(response.status_code, 204)
