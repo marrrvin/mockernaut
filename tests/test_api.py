@@ -23,8 +23,7 @@ class RuleListTestCase(ApiTestCase):
     def test_get_empty_rules_list(self):
         response = self.client.get(self.path)
 
-        self.assertEquals(response.status_code, 200)
-        self.assertEquals(response.content_type, 'application/json')
+        self.assertResponse(response)
 
         rules_list = loads(response.data)
 
@@ -38,25 +37,19 @@ class GetRuleByIdTestCase(ApiTestCase):
             '{path}/{id}'.format(path=self.path, id=0)
         )
 
-        self.assertEquals(response.status_code, 404)
-        self.assertEquals(response.content_type, 'application/json')
+        self.assertResponse(response, 404)
 
         error = loads(response.data)
-
-        self.assertIsInstance(error, dict)
-        self.assertIn('type', error)
-        self.assertEqual(error['type'], 'DoesNotExist')
+        self.assertError(error, 'DoesNotExist')
 
 
 class CreateRuleTestCase(ApiTestCase):
     def test_create_rule_valid_data(self):
         response = self.client.post(self.path, data=dumps(self.rule_data))
 
-        self.assertEquals(response.status_code, 201)
-        self.assertEquals(response.content_type, 'application/json')
+        self.assertResponse(response, 201)
 
         rule = loads(response.data)
-
         self.assertIsInstance(rule, dict)
 
     def test_create_rule_invalid_data(self):
@@ -67,11 +60,9 @@ class CreateRuleTestCase(ApiTestCase):
 
         response = self.client.post(self.path, data=dumps(rule_data))
 
-        self.assertEquals(response.status_code, 400)
-        self.assertEquals(response.content_type, 'application/json')
+        self.assertResponse(response, 400)
 
         rule = loads(response.data)
-
         self.assertIsInstance(rule, dict)
 
 
@@ -81,8 +72,7 @@ class DeleteRuleTestCase(ApiTestCase):
             '{path}/{id}'.format(path=self.path, id=0)
         )
 
-        self.assertEquals(response.status_code, 204)
-        self.assertEquals(response.content_type, 'application/json')
+        self.assertResponse(response, 204)
         self.assertEquals(response.data, b'')
 
     def test_delete_non_existent_rule(self):
@@ -90,6 +80,5 @@ class DeleteRuleTestCase(ApiTestCase):
             '{path}/{id}'.format(path=self.path, id=0)
         )
 
-        self.assertEquals(response.status_code, 204)
-        self.assertEquals(response.content_type, 'application/json')
+        self.assertResponse(response, 204)
         self.assertEquals(response.data, b'')

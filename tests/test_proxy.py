@@ -8,13 +8,33 @@ class ApiTestCase(TestCase):
     def test_no_rule(self):
         response = self.client.get('/')
 
-        self.assertEqual(404, response.status_code)
-        self.assertEqual('application/json', response.content_type)
-        error = loads(response.data)
+        self.assertResponse(response, 404)
 
-        self.assertIsInstance(error, dict)
-        self.assertIn('type', error)
-        self.assertEqual(error['type'], 'DoesNotExist')
+        error = loads(response.data)
+        self.assertError(error, 'DoesNotExist')
+
+    def test_no_match(self):
+        status_code = 200
+        content_type = u'text/plain'
+
+        self.storage.create({
+            u'request': {
+                u'path': u'/',
+                u'methods': ['POST']
+            },
+            u'response': {
+                u'status': status_code,
+                u'headers': [[u'Content-type', content_type]],
+                u'body': u'GET 1'
+            },
+        })
+
+        response = self.client.get('/?key=value')
+
+        self.assertResponse(response, 404)
+
+        error = loads(response.data)
+        self.assertError(error, 'DoesNotExist')
 
     def test_multiple_choice(self):
         status_code = 200
@@ -45,14 +65,10 @@ class ApiTestCase(TestCase):
 
         response = self.client.get('/?key=value')
 
-        self.assertEqual(409, response.status_code)
-        self.assertEqual('application/json', response.content_type)
+        self.assertResponse(response, 409)
 
         error = loads(response.data)
-
-        self.assertIsInstance(error, dict)
-        self.assertIn('type', error)
-        self.assertEqual(error['type'], 'MultipleChoice')
+        self.assertError(error, 'MultipleChoice')
 
     def test_match_single_rule(self):
         status_code = 200
@@ -71,8 +87,7 @@ class ApiTestCase(TestCase):
 
         response = self.client.get('/')
 
-        self.assertEqual(status_code, response.status_code)
-        self.assertEqual(content_type, response.content_type)
+        self.assertResponse(response, content_type=content_type)
         self.assertEqual(b'Single rule', response.data)
 
     def test_match_same_path_different_methods(self):
@@ -103,8 +118,7 @@ class ApiTestCase(TestCase):
 
         response = self.client.post('/')
 
-        self.assertEqual(200, response.status_code)
-        self.assertEqual(content_type, response.content_type)
+        self.assertResponse(response, 200, content_type)
         self.assertEqual(b'POST', response.data)
 
     def test_match_same_path_vary_on_arg(self):
@@ -139,6 +153,5 @@ class ApiTestCase(TestCase):
 
         response = self.client.get('/' + '?key=value')
 
-        self.assertEqual(200, response.status_code)
-        self.assertEqual(content_type, response.content_type)
+        self.assertResponse(response, content_type=content_type)
         self.assertEqual(b'GET and arg', response.data)
