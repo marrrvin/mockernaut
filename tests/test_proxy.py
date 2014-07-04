@@ -34,7 +34,7 @@ class ApiTestCase(TestCase):
         self.assertResponse(response, 404)
 
         error = loads(response.data)
-        self.assertError(error, 'DoesNotExist')
+        self.assertError(error, 'NoMatch')
 
     def test_multiple_choice(self):
         status_code = 200

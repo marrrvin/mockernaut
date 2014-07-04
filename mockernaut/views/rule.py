@@ -5,6 +5,7 @@ from mockernaut.compat import iteritems
 from mockernaut.compat import urlparse
 from mockernaut.errors import NoMatch
 from mockernaut.errors import MultipleChoice
+from mockernaut.errors import DoesNotExist
 
 
 def match_request(req, rule_req):
@@ -69,6 +70,9 @@ def match_request(req, rule_req):
 
 
 def _get_items_with_max_values(dct):
+    if not dct:
+        return []
+
     max_value = max(iteritems(dct), key=operator.itemgetter(1))[1]
 
     return dict([
@@ -84,6 +88,9 @@ def find_rule_by_request(rules, req):
             scores[number] = match_request(req, rule['request'])
         except NoMatch:
             continue
+
+    if not scores:
+        raise NoMatch('No rule.')
 
     winners = _get_items_with_max_values(scores)
     if len(winners) > 1:
