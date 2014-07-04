@@ -1,5 +1,6 @@
 
 from mockernaut.tests import TestCase
+from mockernaut.errors import DoesNotExist
 
 
 class StorageTestCase(TestCase):
@@ -25,3 +26,6 @@ class StorageTestCase(TestCase):
         self.assertEquals(rule, actual_rule)
 
         self.assertIsNone(storage.delete_by_id(_id))
+
+        with self.assertRaises(DoesNotExist):
+            storage.delete_by_id(_id)

@@ -44,6 +44,8 @@ class GetRuleByIdTestCase(ApiTestCase):
         error = loads(response.data)
 
         self.assertIsInstance(error, dict)
+        self.assertIn('type', error)
+        self.assertEqual(error['type'], 'DoesNotExist')
 
 
 class CreateRuleTestCase(ApiTestCase):
