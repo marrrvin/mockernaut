@@ -16,6 +16,44 @@ class ApiTestCase(TestCase):
         self.assertIn('type', error)
         self.assertEqual(error['type'], 'DoesNotExist')
 
+    def test_multiple_choice(self):
+        status_code = 200
+        content_type = u'text/plain'
+
+        self.storage.create({
+            u'request': {
+                u'path': u'/',
+                u'methods': ['GET']
+            },
+            u'response': {
+                u'status': status_code,
+                u'headers': [[u'Content-type', content_type]],
+                u'body': u'GET 1'
+            },
+        })
+        self.storage.create({
+            u'request': {
+                u'path': u'/',
+                u'args': {'key': 'value'}
+            },
+            u'response': {
+                u'status': status_code,
+                u'headers': [[u'Content-type', content_type]],
+                u'body': u'GET 1'
+            },
+        })
+
+        response = self.client.get('/?key=value')
+
+        self.assertEqual(409, response.status_code)
+        self.assertEqual('application/json', response.content_type)
+
+        error = loads(response.data)
+
+        self.assertIsInstance(error, dict)
+        self.assertIn('type', error)
+        self.assertEqual(error['type'], 'MultipleChoice')
+
     def test_match_single_rule(self):
         status_code = 200
         content_type = u'text/plain'
