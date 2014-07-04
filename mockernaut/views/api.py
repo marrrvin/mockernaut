@@ -33,4 +33,4 @@ def delete_rule(rule_id):
     except app.storage.DoesNotExist:
         pass
 
-    return b'', 204
+    return '', 204
