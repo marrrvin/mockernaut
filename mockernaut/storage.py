@@ -1,6 +1,6 @@
 
-from json import dumps
-from json import loads
+from flask.json import dumps
+from flask.json import loads
 
 from mysql.connector.pooling import MySQLConnectionPool
 from mysql.connector import cursor
