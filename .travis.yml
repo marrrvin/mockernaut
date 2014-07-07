@@ -19,9 +19,6 @@ install:
 script:
   - "make test"
 
-env:
-  - MOCKERNAUT_SETTINGS=${TRAVIS_BUILD_DIR}/config/test_config.py
-
 before_script:
   - "make check"
 
