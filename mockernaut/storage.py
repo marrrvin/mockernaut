@@ -5,7 +5,7 @@ from flask.json import loads
 from mysql.connector.pooling import MySQLConnectionPool
 from mysql.connector import cursor
 
-from .errors import DoesNotExist
+from mockernaut.errors import DoesNotExist
 
 
 class MySQLCursorDict(cursor.MySQLCursor):

@@ -3,8 +3,8 @@ from flask import Blueprint
 from flask import g
 from flask import current_app as app
 
-from .decorators import schema
-from .schema import docs
+from mockernaut.views.decorators import schema
+from mockernaut.views.schema import docs
 
 
 rules = Blueprint('rules', __name__)

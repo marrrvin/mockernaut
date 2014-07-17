@@ -32,7 +32,7 @@ if sys.version_info[:2] < (2, 7):  # pragma: no cover
         def emit(self, record):
             pass
 
-    from .utils.dictconfig import dictConfig
+    from mockernaut.utils.dictconfig import dictConfig
 else:
     import unittest
 

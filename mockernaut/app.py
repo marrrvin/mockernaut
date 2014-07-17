@@ -6,16 +6,16 @@ from flask import request
 from werkzeug.wrappers import Response
 from werkzeug._compat import string_types
 
-from .views.api import rules
-from .views.proxy import proxy
-from .storage import storage_class
-from .compat import text_type
-from .compat import dictConfig
-from .errors import HTTPException
-from .errors import ValidationError
-from .errors import DoesNotExist
-from .errors import MultipleChoice
-from .errors import NoMatch
+from mockernaut.views.api import rules
+from mockernaut.views.proxy import proxy
+from mockernaut.storage import storage_class
+from mockernaut.compat import text_type
+from mockernaut.compat import dictConfig
+from mockernaut.errors import HTTPException
+from mockernaut.errors import ValidationError
+from mockernaut.errors import DoesNotExist
+from mockernaut.errors import MultipleChoice
+from mockernaut.errors import NoMatch
 
 
 class JsonResponse(Response):

@@ -1,6 +1,6 @@
 
-from .compat import unittest
-from .app import create_app
+from mockernaut.compat import unittest
+from mockernaut.app import create_app
 
 
 class SimpleTestCase(unittest.TestCase):

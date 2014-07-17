@@ -4,7 +4,7 @@ from flask.json import dumps
 import requests
 from requests import HTTPError
 
-from ..compat import urljoin
+from mockernaut.compat import urljoin
 
 
 def join(*parts):
